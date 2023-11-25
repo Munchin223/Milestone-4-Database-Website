@@ -1,3 +1,6 @@
+<!--
+  Known bug of tab panels overlapping initially. Not sure how to fix.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,9 +23,8 @@
     <h3>Your Products</h3>
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="#view">View Active Listings</a></li>
-        <li><a data-toggle="pill" href="#menu1">Edit/Add Listing</a></li>
+        <li><a data-toggle="pill" href="#menu1">Add Listing</a></li>
         <li><a data-toggle="pill" href="#menu2">Remove Listing</a></li>
-        <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
       </ul>
       
       <div class="tab-content">
@@ -40,19 +42,24 @@
             if ($conn->connect_error) {
                 die($conn->connect_error);
             }
-           
-
-           
-  
-
             ?>
             <table class="table table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Model Name</th>
+                <th scope="col">Manufacturer Email</th>
+                <th scope="col">Product Type</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Product Link</th>
+                <th scope="col">Price</th>
+                <th scope="col">GPU</th>
+                <th scope="col">CPU</th>
+                <th scope="col">Operating System</th>
+                <th scope="col">Screen Size</th>
+                <th scope="col">Storage Size</th>
+                <th scope="col">Battery Life</th>
+
               </tr>
             </thead>
             <tbody>
@@ -61,19 +68,19 @@
               
               $result = $conn->query("SELECT * FROM Product_Model_Info WHERE Manufacturer_Email LIKE '$Company_Email'");
               $row = $result->fetch_all();
-              print_r($row);
-          
-              
-              $i = 1;
-              $j = 0;
-              foreach($row[$j] as $key => $value) {
-                ?>
-                
-                <td><?php echo $value?></td><?php
-                $i++;
-              }
-            ?>
-              
+
+              $count = substr_count(print_r($row,TRUE),"Array")-1;
+
+              for($j=0; $j < $count; $j++) {
+                foreach($row[$j] as $key => $value) {
+                  if($key === 0) { ?><tr>
+                    <th scope="row">
+                    <?php echo $j+1?>
+                  </th><?php } ?>
+                  <td><?php echo $value?></td><?php
+                }
+                ?></tr><?php
+              } ?>
            </tbody>
           </table>
           
@@ -117,28 +124,81 @@
               <input id="os" type="text" class="form-control" name="os" placeholder="Operating System">
             </div>
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase"></i></span>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-modal-window"></i></span>
               <input id="screensize" type="text" class="form-control" name="screensize" placeholder="Screen Size">
             </div>
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
               <input id="storagesize" type="text" class="form-control" name="storagesize" placeholder="Storage Size">
             </div>
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-flash"></i></span>
               <input id="batterylife" type="text" class="form-control" name="batterylife" placeholder="Battery Life">
             </div>
             <input type="submit" name='submit' class="btn btn-info" value="Add Product">
           </form>
         
         </div>
-        <div id="menu2" class="tab-pane fade">
-          <h3>Menu 2</h3>
-          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-        </div>
-        <div id="menu3" class="tab-pane fade">
-          <h3>Menu 3</h3>
-          <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        <div id="menu2" class="tab-pane fade in active">
+          <h3> Listings</h3>
+          <?php
+            $servername = "localhost";
+            $username = "root";
+            $password ="root";
+            $database = "catalogue";
+            
+            $conn = new mysqli($servername, $username, $password, $database);
+            
+            if ($conn->connect_error) {
+                die($conn->connect_error);
+            }
+
+
+            ?>
+            <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Model Name</th>
+                <th scope="col">Manufacturer Email</th>
+                <th scope="col">Product Type</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Product Link</th>
+                <th scope="col">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php
+              $Company_Email = $_GET['email'];
+              
+              $result = $conn->query("SELECT * FROM Product_Model_Info WHERE Manufacturer_Email LIKE '$Company_Email'");
+              $row = $result->fetch_all();
+
+              // This is such a line.
+              $count = substr_count(print_r($row,TRUE),"Array")-1;
+
+              for($j=0; $j < $count; $j++) {
+                foreach($row[$j] as $key => $value) {
+                  if($key === 0) { ?><tr>
+                    <th scope="row">
+                    <?php echo $j+1?>
+                  </th><?php } 
+                  if($key === 6) {
+                    break;
+                  }?>
+                  <td><?php echo $value?></td><?php
+                }
+                ?></tr><?php
+              } ?>
+           </tbody>
+          </table>
+          <form action="DeleteProduct.php" method="post">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input id="model_delete" type="text" class="form-control" name="model_delete" placeholder="Enter Model Name of Product">
+            </div>
+            <input type="submit" class="btn btn-info" value="Delete">
+        </form>
         </div>
       </div>
     </div>

@@ -1,26 +1,24 @@
 <?php
+    $servername = "localhost";
+    $username = "root";
+    $password ="root";
+    $database = "catalogue";
 
-$servername = "localhost";
-$username = "root";
-$password ="root";
-$database = "catalogue";
+    $conn = new mysqli($servername, $username, $password, $database);
 
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die($conn->connect_error);
-}
-else {
-    echo "Connection Successful!";
-}
+    if ($conn->connect_error) {
+        die($conn->connect_error);
+    }
+    else {
+        echo "Connection Successful!";
+    }
 
     $str = $_SERVER['HTTP_REFERER'];
     $qs = parse_url($str, PHP_URL_QUERY);      
     $Company_Email = "";
     if(!empty($qs)){
         parse_str($qs, $output);
-        // TODO check for key existence
-        $Company_Email = $output['email'];  // example
+        $Company_Email = $output['email']; 
     }  
                 
 
@@ -43,7 +41,5 @@ else {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
     header('Location: ' . $_SERVER['HTTP_REFERER']);
- 
-    
-            $conn->close();
-          ?>
+    $conn->close();
+?>
