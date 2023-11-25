@@ -4,10 +4,9 @@ Phone_Num CHAR(10),
 PRIMARY KEY (Email)
 );
 
-
 CREATE TABLE Login_Has (
 Username CHAR(30),
-Password CHAR(20),
+User_Password CHAR(20),
 Email CHAR(40),
 PRIMARY KEY (Email, Username),
 FOREIGN KEY (Email) REFERENCES User_Info(Email) ON DELETE CASCADE
