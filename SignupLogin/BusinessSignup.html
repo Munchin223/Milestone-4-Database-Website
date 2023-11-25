@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+<!-- Page Header -->
+  <h1>Business Signup</h1>
+  <p>Something, Something, Something</p> 
+</div>
+
+  <div class="container">
+    <div class="container">
+        <h2>Create New Account</h2>
+        <form action="BusinessSingup.php" method="post">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+              <input id="email" type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                <input id="phone" type="tel" class="form-control" name="phone" placeholder="Phone Number" required>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="username" type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-briefcase"></i></span>
+              <input id="brand" type="text" class="form-control" name="brand" placeholder="Brand Name" required>
+            </div>
+            <input type="submit" class="btn btn-info" value="Submit Button">
+          </form>
+      </div>
+  </div>
+</body>
+</html>

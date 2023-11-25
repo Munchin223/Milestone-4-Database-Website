@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- Page Header -->
+<div class="jumbotron text-center">
+  <h1>Business Login</h1>
+  <p>Something, Something, Something</p> 
+</div>
+
+<!-- Login -->
+<div class="container">
+  <h2>Business Login</h2>
+  <form action="Login.php" method="post">
+    <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+      <input id="email" type="email" class="form-control" name="email" placeholder="Email">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+      <input id="username" type="text" class="form-control" name="username" placeholder="Username">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+      <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+    </div>
+    <input type="submit" class="btn btn-info" value="Log In">
+  </form>
+</div>
+<div class="container">
+  <h4>Don't have an Account yet?</h5>
+  <a href="BusinessSignup.html" class="btn btn-default" role="button">Signup</a>
+</div>
+
+
+</body>
+</html>
