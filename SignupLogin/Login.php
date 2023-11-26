@@ -3,9 +3,6 @@
  * Handles Login queries for all users. 
  * Query feedback is displayed in the url after submitting.
  * 
- * For some lovely reason, adding a where condition to a query makes the return value a boolean.
- * Meaning, at the moment, I cannot find a way to verify if the login data is valid.
- * Currently, the code will accept any input, regardless if its in the database.
  */
 $servername = "localhost";
 $username = "root";
@@ -25,26 +22,38 @@ else {
     echo "Connection Successful!";
 }
 
-// Execute queries
-$query_Validate_Email = "SELECT Email FROM Login_Has WHERE Email LIKE '$Email'";
-$query_result_Email = $conn->query($query_Validate_Email);
+$isCompany = FALSE;
+$isEmployee = FALSE;
 
+// Query to get user login
 $query_Validate_Login = "SELECT Email, Username, User_Password FROM Login_Has WHERE Email LIKE '$Email' AND Username LIKE '$User' AND User_Password LIKE '$Pass'";
 $query_result_Login = $conn->query($query_Validate_Login);
 
-// Formats results into variables
-$email_row = $query_result_Email->fetch_assoc();
-$login_row = $query_result_Login->fetch_assoc();
-echo print_r($login_row);
-
-// Checks if the email is valid
-// if fails, reloads the page to prompt again
-if (empty($Email) || $email_row["Email"] != $Email) {
-    header('Location: ' . $_SERVER['HTTP_REFERER'] . '?InvalidEmail');
+$query_CheckIf_Business = "SELECT Email FROM Product_Company WHERE Email LIKE '$Email'";
+$query_result_Business = $conn->query($query_CheckIf_Business);
+$business_row = $query_result_Business->fetch_assoc();
+// if 
+if(!is_null($business_row)) {
+    $isCompany = TRUE;
 }
-// Checks if the password, and username is valid.
+
+$query_CheckIf_Employee = "SELECT Email FROM Employee WHERE Email LIKE '$Email'";
+$query_result_Employee = $conn->query($query_CheckIf_Employee);
+$employee_row = $query_result_Employee->fetch_assoc();
+
+if(!is_null($employee_row)) {
+    $isEmployee = TRUE;
+}
+// Formats results into arrays
+$login_row = $query_result_Login->fetch_assoc();
+
+
+
+
+
+// Checks if the email, password, and username is valid.
 // if fails, reloads the page to prompt again
-elseif ($login_row['Email'] != $Email || $login_row['Username'] != $User || $login_row['User_Password'] != $Pass) {
+if ($login_row['Email'] != $Email || $login_row['Username'] != $User || $login_row['User_Password'] != $Pass) {
         header('Location: ' . $_SERVER['HTTP_REFERER'] . '?InvalidLogin');
 }
 // if both checks successful, sends user to catalogue page
@@ -52,7 +61,16 @@ else {
 /**
  * REDIRECT USER TO STORE PAGE. CHANGE THE FILE LATER
  */
-    header('Location: Login.html?LoginSuccessful');
+    if($isCompany) {
+        
+        header('Location: ../ProductCompanyManage/ManageProduct.php?email='.$Email);
+    }
+    elseif($isEmployee) {
+        header('Location: ../EmployeeManage/ManageUser.php?email='.$Email);
+    }
+    else {
+        header('Location: Login.html?LoginSuccessful');
+    }
 }
 $conn->close();
 ?>
