@@ -37,7 +37,13 @@ if(!is_null($business_row)) {
     $isCompany = TRUE;
 }
 
-$query_CheckIf_Employee = "";
+$query_CheckIf_Employee = "SELECT Email FROM Employee WHERE Email LIKE '$Email'";
+$query_result_Employee = $conn->query($query_CheckIf_Employee);
+$employee_row = $query_result_Employee->fetch_assoc();
+
+if(!is_null($employee_row)) {
+    $isEmployee = TRUE;
+}
 // Formats results into arrays
 $login_row = $query_result_Login->fetch_assoc();
 
@@ -59,8 +65,12 @@ else {
         
         header('Location: ../ProductCompanyManage/ManageProduct.php?email='.$Email);
     }
-    else 
+    elseif($isEmployee) {
+        header('Location: ../EmployeeManage/ManageUser.php?email='.$Email);
+    }
+    else {
         header('Location: Login.html?LoginSuccessful');
+    }
 }
 $conn->close();
 ?>

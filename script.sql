@@ -33,5 +33,12 @@ Screen_Size CHAR(255),
 Storage_Size CHAR(255),
 Battery_Life CHAR(255),
 PRIMARY KEY (Model_name, Manufacturer_Email),
-FOREIGN KEY (Manufacturer_Email) REFERENCES Product_Company(Email)
+FOREIGN KEY (Manufacturer_Email) REFERENCES Product_Company(Email) ON DELETE CASCADE
+);
+
+CREATE TABLE Employee(
+Email CHAR(40) NOT NULL,
+Name CHAR(30),
+PRIMARY KEY (Email,Name),
+FOREIGN KEY (Email) REFERENCES User_info(Email) ON DELETE CASCADE
 );
