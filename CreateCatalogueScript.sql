@@ -42,3 +42,5 @@ Name CHAR(30),
 PRIMARY KEY (Email,Name),
 FOREIGN KEY (Email) REFERENCES User_info(Email) ON DELETE CASCADE
 );
+
+
