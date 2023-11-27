@@ -1,5 +1,7 @@
 <!--
   Known bug of tab panels overlapping initially. Not sure how to fix.
+
+  This page handles our aggregation queries.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +41,15 @@
         
         <div class="container">
         <div class="row">
+    <!-- This displays the basic aggregation functions for the Product Company
+         As seen below it shows:
+         1. Total Items
+         2. Highest Item Price
+         3. Lowest Item Price
+         4. Average Item Price
+         I also realize now it check all products instead of just a single company.
+         Whoops.        
+    -->
     <div class="col-sm-3">
         <?php
         $item = $conn->query("SELECT * FROM Product_Model_Info");
@@ -100,20 +111,32 @@
               </tr>
             </thead>
             <tbody>
+
             <?php
+              // The comments in this block applies to all the other menu tabs below.
+
+              // Gets company email from url 
               $Company_Email = $_GET['email'];
               
+              // Gets all the products for the company that logged in
               $result = $conn->query("SELECT * FROM Product_Model_Info WHERE Manufacturer_Email LIKE '$Company_Email'");
+              // Gets all the product rows which results in this being a 2d array/dictionary
               $row = $result->fetch_all();
 
+              // Counts how many products there are for the company
               $count = substr_count(print_r($row,TRUE),"Array")-1;
 
+              // Iterates through the number of products
               for($j=0; $j < $count; $j++) {
+                // Iterates through each of the product attributes
                 foreach($row[$j] as $key => $value) {
+                  // key is the index
+                  // 0 indicates to add the row number
                   if($key === 0) { ?><tr>
                     <th scope="row">
                     <?php echo $j+1?>
                   </th><?php } ?>
+                  <!-- Print the attribute value in its table cell-->
                   <td><?php echo $value?></td><?php
                 }
                 ?></tr><?php
@@ -318,6 +341,7 @@
                     <th scope="row">
                     <?php echo $j+1?>
                   </th><?php } 
+                  // End the loop early for simplicity of data displayed on the delete tab
                   if($key === 6) {
                     break;
                   }?>

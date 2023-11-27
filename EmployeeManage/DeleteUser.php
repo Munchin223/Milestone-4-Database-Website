@@ -1,4 +1,5 @@
 <?php
+    // This page handles our Delete Query since the deletion cascades.
     $servername = "localhost";
     $username = "root";
     $password ="root";
@@ -14,14 +15,17 @@
     }
 
       
-
+    // Gets input data
     $User = $_POST["user_delete"];
     
+    // Creates query.
     $query_delete_product = "DELETE FROM User_Info
         WHERE Email LIKE '$User'";
+    // If statement is actually redundant but it sends the query in this case.
     if ($conn->query($query_delete_product) === FALSE) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
+    // Keeps user on the same page
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     $conn->close();
 ?>

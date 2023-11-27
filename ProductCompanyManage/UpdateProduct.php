@@ -1,4 +1,5 @@
 <?php
+    // This page handles our update query.
     $servername = "localhost";
     $username = "root";
     $password ="root";
@@ -13,6 +14,7 @@
         echo "Connection Successful!";
     }
 
+    // Gets the company email from the page url to be used here
     $str = $_SERVER['HTTP_REFERER'];
     $qs = parse_url($str, PHP_URL_QUERY);      
     $Company_Email = "";
@@ -21,7 +23,7 @@
         $Company_Email = $output['email']; 
     }  
                 
-
+    // Get input data
     $Model = $_POST["model"];
     $Product_Type = $_POST["producttype"];
     $Link = $_POST["link"];
@@ -33,13 +35,16 @@
     $Storage_Size = $_POST["storagesize"];
     $Battery_Life = $_POST["batterylife"];
     
+    // Create query
     $query_update_products = "UPDATE Product_Model_Info 
     SET Product_Type = '$Product_Type',
     Link = '$Link', Price = $Price, GPU = '$GPU', CPU = '$CPU',
      Operating_System = '$Operating_System', Screen_Size = '$Screen_Size',
      Storage_Size = '$Storage_Size',
      Battery_Life = '$Battery_Life' WHERE Model_Name = '$Model'"; 
+    // Sends query
     $conn->query($query_update_products);
+    // Keeps user on same page
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     $conn->close();
 ?>

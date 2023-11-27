@@ -1,5 +1,7 @@
 <!--
   Known bug of tab panels overlapping initially. Not sure how to fix.
+
+  This page handles our Join Query.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -44,10 +46,13 @@
               if ($conn->connect_error) {
                   die($conn->connect_error);
               }
-              
+              // Gets all the users
               $user_count = $conn->query("SELECT * FROM User_Info");
+              // Gets all rows of users as a 2d array/dictionary
               $row = $user_count->fetch_all();
+              // Counts the number of users
               $count = substr_count(print_r($row,TRUE),"Array")-1;
+              // Displays the total users (aggregation function)
               echo "Total Users: " . $count;
               ?>
           </li> 
@@ -65,8 +70,10 @@
             </thead>
             <tbody>
             <?php
+            // Refer to ManageProduct.php for actual comments since this is the exact same code.
               $Company_Email = $_GET['email'];
-              
+              // However, this is our JOIN query where it combines the user info with the login
+              // There are 2 more join queries below.
               $result = $conn->query("SELECT * FROM User_Info NATURAL JOIN Login_Has");
               $row = $result->fetch_all();
 
@@ -107,7 +114,7 @@
             <tbody>
             <?php
               $Company_Email = $_GET['email'];
-              
+              // This is our JOIN query where it combines the company info with its user info
               $result = $conn->query("SELECT * FROM Product_Company NATURAL JOIN User_Info");
               $row = $result->fetch_all();
 
@@ -158,7 +165,7 @@
             <tbody>
             <?php
               $Company_Email = $_GET['email'];
-              
+              // This is our JOIN query where it combines the Employee info with its login info
               $result = $conn->query("SELECT DISTINCT * FROM Employee NATURAL JOIN Login_Has NATURAL JOIN User_Info");
               $row = $result->fetch_all();
 
@@ -233,6 +240,8 @@
  
 </table>
 <tbody>
+            // Ignore this, this was an attempt to make a tab to just display any table in the database
+            // but alas php did not cooperate.
             <?php
 
             if(isset($_GET['SearchButton']))
